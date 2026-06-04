@@ -1,0 +1,15 @@
+{
+  "name": "yoon-doha-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tingle 윤도하 캐릭터 지표 트래커와 GitHub Pages 대시보드",
+  "main": "scripts/track-yoon-doha-stats.js",
+  "scripts": {
+    "track": "node scripts/track-yoon-doha-stats.js",
+    "check": "node --check scripts/track-yoon-doha-stats.js"
+  },
+  "dependencies": {
+    "playwright": "^1.52.0"
+  },
+  "devDependencies": {}
+}
