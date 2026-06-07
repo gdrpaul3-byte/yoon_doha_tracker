@@ -2,7 +2,7 @@
   "name": "yoon-doha-tracker",
   "version": "1.0.0",
   "private": true,
-  "description": "Tingle 윤도하 캐릭터 지표 트래커와 GitHub Pages 대시보드",
+  "description": "Tingle 캐릭터 포트폴리오 지표 트래커와 GitHub Pages 대시보드",
   "main": "scripts/track-yoon-doha-stats.js",
   "scripts": {
     "track": "node scripts/track-yoon-doha-stats.js",

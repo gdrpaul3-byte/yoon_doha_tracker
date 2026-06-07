@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>윤도하 Tingle 트래커</title>
-  <meta name="description" content="Tingle 윤도하 캐릭터 counter_1, counter_2, comments 추이 대시보드">
+  <title>Tingle 캐릭터 포트폴리오</title>
+  <meta name="description" content="Tingle 캐릭터 포트폴리오 counter_1, counter_2, comments 추이 대시보드">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <style>
     :root {
@@ -18,6 +18,7 @@
       --green: #0f9f6e;
       --red: #dc2626;
       --amber: #c27803;
+      --violet: #7c3aed;
       --shadow: 0 18px 50px rgba(23, 32, 51, 0.09);
     }
 
@@ -35,6 +36,11 @@
 
     a {
       color: inherit;
+    }
+
+    code {
+      font: inherit;
+      font-weight: 800;
     }
 
     .shell {
@@ -68,7 +74,7 @@
     }
 
     .subtitle {
-      max-width: 760px;
+      max-width: 780px;
       margin: 14px 0 0;
       color: var(--muted);
       font-size: 16px;
@@ -91,42 +97,98 @@
       box-shadow: 0 8px 22px rgba(23, 32, 51, 0.06);
     }
 
-    .status-strip {
+    .portfolio-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
       margin-bottom: 18px;
     }
 
-    .metric {
-      min-height: 132px;
-      padding: 18px;
+    .character-card,
+    .chart-panel,
+    .table-panel {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--panel);
       box-shadow: var(--shadow);
     }
 
+    .character-card {
+      min-height: 248px;
+      padding: 18px;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .character-name {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .character-id {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 8px;
+      border-radius: 8px;
+      background: #edf2ff;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .metric-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .metric {
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metric:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
     .metric-label {
-      margin: 0 0 12px;
+      margin: 0 0 5px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
     }
 
     .metric-value {
       margin: 0;
-      font-size: 32px;
+      font-size: 25px;
       font-weight: 900;
-      line-height: 1;
+      line-height: 1.05;
       letter-spacing: 0;
     }
 
     .metric-note {
-      margin: 12px 0 0;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .card-meta {
+      margin: 16px 0 0;
       color: var(--muted);
       font-size: 13px;
       line-height: 1.45;
+      overflow-wrap: anywhere;
     }
 
     .delta-up {
@@ -141,24 +203,16 @@
       color: var(--amber);
     }
 
-    .main-grid {
+    .content-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 320px;
+      grid-template-columns: minmax(0, 1fr) 390px;
       gap: 18px;
       align-items: start;
     }
 
     .chart-panel,
-    .latest-panel {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-    }
-
-    .chart-panel {
+    .table-panel {
       padding: 20px;
-      min-height: 470px;
     }
 
     .panel-title {
@@ -178,41 +232,41 @@
     .chart-wrap {
       position: relative;
       width: 100%;
-      height: 380px;
+      height: 410px;
     }
 
-    .latest-panel {
-      padding: 20px;
+    .table-wrap {
+      overflow-x: auto;
     }
 
-    .detail-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 520px;
     }
 
-    .detail {
-      padding-bottom: 12px;
+    th,
+    td {
+      padding: 11px 10px;
       border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.35;
+      white-space: nowrap;
     }
 
-    .detail:last-child {
-      padding-bottom: 0;
-      border-bottom: 0;
-    }
-
-    .detail dt {
-      margin: 0 0 5px;
+    th {
       color: var(--muted);
       font-size: 12px;
+      font-weight: 900;
+    }
+
+    td:first-child {
       font-weight: 800;
     }
 
-    .detail dd {
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.45;
-      overflow-wrap: anywhere;
+    tr:last-child td {
+      border-bottom: 0;
     }
 
     .error {
@@ -224,22 +278,27 @@
       font-weight: 800;
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 1020px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
       .topbar {
         display: grid;
       }
 
-      .status-strip,
-      .main-grid {
+      .portfolio-grid {
         grid-template-columns: 1fr;
       }
 
-      .chart-panel {
-        min-height: 390px;
-      }
-
       .chart-wrap {
-        height: 310px;
+        height: 330px;
       }
     }
   </style>
@@ -248,70 +307,41 @@
   <main class="shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">Tingle Character Tracker</p>
-        <h1>윤도하 지표 대시보드</h1>
-        <p class="subtitle">CSV 이력을 직접 불러와 counter_1, counter_2, comments 추이를 표시합니다. GitHub Pages 상대 경로에서 동작하도록 모든 데이터 파일은 <code>data/</code> 기준으로 로드됩니다.</p>
+        <p class="eyebrow">Tingle Character Portfolio</p>
+        <h1>Tingle 캐릭터 포트폴리오</h1>
+        <p class="subtitle">CSV 이력을 직접 불러와 네 캐릭터의 counter_1, counter_2, comments 최신값과 추이를 표시합니다. 데이터 파일은 GitHub Pages 상대 경로인 <code>data/</code> 기준으로 로드됩니다.</p>
       </div>
-      <a class="link-button" id="characterLink" href="https://tingle.chat/chat/characters/45714" target="_blank" rel="noreferrer">캐릭터 보기</a>
+      <a class="link-button" href="https://tingle.chat/chat/characters/45714" target="_blank" rel="noreferrer">Tingle 보기</a>
     </header>
 
-    <section class="status-strip" aria-label="latest metrics">
-      <article class="metric">
-        <p class="metric-label">Counter 1</p>
-        <p class="metric-value" id="counter1">-</p>
-        <p class="metric-note" id="counter1Delta">전일 대비 -</p>
-      </article>
-      <article class="metric">
-        <p class="metric-label">Counter 2</p>
-        <p class="metric-value" id="counter2">-</p>
-        <p class="metric-note" id="counter2Delta">전일 대비 -</p>
-      </article>
-      <article class="metric">
-        <p class="metric-label">Comments</p>
-        <p class="metric-value" id="comments">-</p>
-        <p class="metric-note" id="commentsDelta">전일 대비 -</p>
-      </article>
-      <article class="metric">
-        <p class="metric-label">전체 증가량</p>
-        <p class="metric-value" id="totalGain">-</p>
-        <p class="metric-note" id="lastUpdate">마지막 업데이트 -</p>
-      </article>
-    </section>
+    <section class="portfolio-grid" id="portfolioGrid" aria-label="latest character metrics"></section>
 
-    <section class="main-grid">
+    <section class="content-grid">
       <article class="chart-panel">
-        <h2 class="panel-title">일별 추이</h2>
-        <p class="panel-subtitle">중복 실행으로 같은 날짜에 여러 행이 있어도 CSV 행 순서 그대로 표시합니다.</p>
+        <h2 class="panel-title">캐릭터별 counter_1 추이</h2>
+        <p class="panel-subtitle">CSV 행 순서를 유지하되 캐릭터별로 나누어 최근 흐름을 비교합니다.</p>
         <div class="chart-wrap">
-          <canvas id="trendChart" aria-label="윤도하 지표 추이 차트"></canvas>
+          <canvas id="trendChart" aria-label="Tingle 캐릭터 포트폴리오 추이 차트"></canvas>
         </div>
       </article>
 
-      <aside class="latest-panel">
-        <h2 class="panel-title">최신 카드</h2>
+      <aside class="table-panel">
+        <h2 class="panel-title">최근 수집 내역</h2>
         <p class="panel-subtitle" id="latestSummary">데이터를 불러오는 중입니다.</p>
-        <dl class="detail-list">
-          <div class="detail">
-            <dt>이름</dt>
-            <dd id="name">-</dd>
-          </div>
-          <div class="detail">
-            <dt>제작자</dt>
-            <dd id="author">-</dd>
-          </div>
-          <div class="detail">
-            <dt>태그</dt>
-            <dd id="tags">-</dd>
-          </div>
-          <div class="detail">
-            <dt>최초 공개</dt>
-            <dd id="publicDate">-</dd>
-          </div>
-          <div class="detail">
-            <dt>상태</dt>
-            <dd id="visible">-</dd>
-          </div>
-        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>캐릭터</th>
+                <th>counter_1</th>
+                <th>counter_2</th>
+                <th>comments</th>
+                <th>수집시각</th>
+              </tr>
+            </thead>
+            <tbody id="recentRows"></tbody>
+          </table>
+        </div>
       </aside>
     </section>
   </main>
@@ -319,8 +349,8 @@
   <script>
     const csvUrl = 'data/yoon-doha-stats.csv';
     const latestUrl = 'data/yoon-doha-latest.json';
-
     const numberFormat = new Intl.NumberFormat('ko-KR');
+    const palette = ['#2563eb', '#0f9f6e', '#c27803', '#7c3aed'];
 
     function parseCsv(text) {
       const rows = [];
@@ -371,8 +401,19 @@
     }
 
     function toNumber(value) {
+      if (value === null || value === undefined || value === '') return null;
       const parsed = Number(value);
       return Number.isFinite(parsed) ? parsed : null;
+    }
+
+    function normalizeRow(row) {
+      return {
+        ...row,
+        character_id: String(row.character_id || ''),
+        counter_1: toNumber(row.counter_1),
+        counter_2: toNumber(row.counter_2),
+        comments: toNumber(row.comments),
+      };
     }
 
     function formatNumber(value) {
@@ -380,7 +421,7 @@
     }
 
     function signedDelta(current, previous) {
-      if (current === null || current === undefined || previous === null || previous === undefined) return 'n/a';
+      if (current === null || current === undefined || previous === null || previous === undefined) return '첫 기록';
       const value = current - previous;
       if (value === 0) return '±0';
       return value > 0 ? `+${numberFormat.format(value)}` : `-${numberFormat.format(Math.abs(value))}`;
@@ -394,111 +435,99 @@
       return 'delta-flat';
     }
 
-    function numericDiff(current, previous) {
-      if (current === null || current === undefined || previous === null || previous === undefined) return null;
-      return current - previous;
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      }[char]));
     }
 
-    function setDelta(id, label, current, previous) {
-      const element = document.getElementById(id);
-      element.textContent = `${label} ${signedDelta(current, previous)}`;
-      element.className = `metric-note ${deltaClass(current, previous)}`.trim();
+    function latestRowsByCharacter(rows) {
+      const grouped = new Map();
+      for (const row of rows) {
+        if (!grouped.has(row.character_id)) grouped.set(row.character_id, []);
+        grouped.get(row.character_id).push(row);
+      }
+      return grouped;
     }
 
-    async function loadDashboard() {
-      const [csvResponse, latestResponse] = await Promise.all([
-        fetch(csvUrl),
-        fetch(latestUrl).catch(() => null),
-      ]);
+    function renderCards(latestRows, groupedRows) {
+      const grid = document.getElementById('portfolioGrid');
+      grid.innerHTML = latestRows.map((latest) => {
+        const history = groupedRows.get(latest.character_id) || [];
+        const previous = history.length > 1 ? history[history.length - 2] : null;
+        const counterDelta = signedDelta(latest.counter_1, previous?.counter_1);
+        const commentDelta = signedDelta(latest.comments, previous?.comments);
+        return `
+          <article class="character-card">
+            <div class="card-head">
+              <div>
+                <h2 class="character-name">${escapeHtml(latest.name || '-')}</h2>
+                <p class="metric-note">${escapeHtml(latest.author || '제작자 n/a')}</p>
+              </div>
+              <span class="character-id">${escapeHtml(latest.character_id)}</span>
+            </div>
+            <div class="metric-list">
+              <div class="metric">
+                <p class="metric-label">Counter 1</p>
+                <p class="metric-value">${formatNumber(latest.counter_1)}</p>
+                <p class="metric-note ${deltaClass(latest.counter_1, previous?.counter_1)}">직전 대비 ${counterDelta}</p>
+              </div>
+              <div class="metric">
+                <p class="metric-label">Counter 2 / Comments</p>
+                <p class="metric-value">${formatNumber(latest.counter_2)} / ${formatNumber(latest.comments)}</p>
+                <p class="metric-note ${deltaClass(latest.comments, previous?.comments)}">댓글 직전 대비 ${commentDelta}</p>
+              </div>
+            </div>
+            <p class="card-meta">${latest.visible === true || latest.visible === 'true' ? '정상 노출' : '확인 필요'} · ${escapeHtml(latest.tags || '태그 없음')}</p>
+          </article>
+        `;
+      }).join('');
+    }
 
-      if (!csvResponse.ok) throw new Error(`CSV 로드 실패: ${csvResponse.status}`);
-      const rows = parseCsv(await csvResponse.text()).map((row) => ({
-        ...row,
-        counter_1: toNumber(row.counter_1),
-        counter_2: toNumber(row.counter_2),
-        comments: toNumber(row.comments),
+    function renderRecentTable(rows) {
+      const body = document.getElementById('recentRows');
+      body.innerHTML = rows.slice(-12).reverse().map((row) => `
+        <tr>
+          <td>${escapeHtml(row.name || row.character_id)}</td>
+          <td>${formatNumber(row.counter_1)}</td>
+          <td>${formatNumber(row.counter_2)}</td>
+          <td>${formatNumber(row.comments)}</td>
+          <td>${escapeHtml(row.collected_at_kst || '-')}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderChart(groupedRows) {
+      const chartContext = document.getElementById('trendChart').getContext('2d');
+      const datasets = [...groupedRows.entries()].map(([characterId, rows], index) => ({
+        label: rows[rows.length - 1]?.name || characterId,
+        data: rows.map((row, rowIndex) => ({
+          x: rowIndex + 1,
+          y: row.counter_1,
+          collectedAt: row.collected_at_kst,
+          counter2: row.counter_2,
+          comments: row.comments,
+        })),
+        borderColor: palette[index % palette.length],
+        backgroundColor: `${palette[index % palette.length]}1f`,
+        tension: 0.28,
+        pointRadius: 3,
+        spanGaps: true,
       }));
 
-      if (!rows.length) throw new Error('CSV에 표시할 데이터가 없습니다.');
-
-      const latestFromCsv = rows[rows.length - 1];
-      const previous = rows.length > 1 ? rows[rows.length - 2] : null;
-      const first = rows[0];
-      const latestJson = latestResponse && latestResponse.ok ? await latestResponse.json() : {};
-      const latest = { ...latestFromCsv, ...latestJson };
-
-      const latestCounter1 = toNumber(latest.counter_1);
-      const latestCounter2 = toNumber(latest.counter_2);
-      const latestComments = toNumber(latest.comments);
-      const prevCounter1 = previous ? toNumber(previous.counter_1) : null;
-      const prevCounter2 = previous ? toNumber(previous.counter_2) : null;
-      const prevComments = previous ? toNumber(previous.comments) : null;
-      const firstCounter1 = toNumber(first.counter_1);
-      const firstCounter2 = toNumber(first.counter_2);
-      const firstComments = toNumber(first.comments);
-
-      document.getElementById('counter1').textContent = formatNumber(latestCounter1);
-      document.getElementById('counter2').textContent = formatNumber(latestCounter2);
-      document.getElementById('comments').textContent = formatNumber(latestComments);
-      setDelta('counter1Delta', '전일 대비', latestCounter1, prevCounter1);
-      setDelta('counter2Delta', '전일 대비', latestCounter2, prevCounter2);
-      setDelta('commentsDelta', '전일 대비', latestComments, prevComments);
-
-      const totalGain = [numericDiff(latestCounter1, firstCounter1), numericDiff(latestCounter2, firstCounter2), numericDiff(latestComments, firstComments)]
-        .filter(Number.isFinite)
-        .reduce((sum, value) => sum + value, 0);
-      document.getElementById('totalGain').textContent = formatNumber(totalGain);
-      document.getElementById('lastUpdate').textContent = `마지막 업데이트 ${latest.collected_at_kst || '-'}`;
-
-      document.getElementById('characterLink').href = latest.url || 'https://tingle.chat/chat/characters/45714';
-      document.getElementById('latestSummary').textContent = latest.intro || latest.title || '최신 수집 결과입니다.';
-      document.getElementById('name').textContent = latest.name || '-';
-      document.getElementById('author').textContent = latest.author || '-';
-      document.getElementById('tags').textContent = latest.tags || '-';
-      document.getElementById('publicDate').textContent = latest.public_date || '-';
-      document.getElementById('visible').textContent = latest.visible === true || latest.visible === 'true' ? '정상 노출' : '비노출 또는 확인 필요';
-
-      const labels = rows.map((row) => row.collected_at_kst || '');
-      const chartContext = document.getElementById('trendChart').getContext('2d');
       new Chart(chartContext, {
         type: 'line',
-        data: {
-          labels,
-          datasets: [
-            {
-              label: 'counter_1',
-              data: rows.map((row) => row.counter_1),
-              borderColor: '#2563eb',
-              backgroundColor: 'rgba(37, 99, 235, 0.12)',
-              tension: 0.28,
-              pointRadius: 3,
-              spanGaps: true,
-            },
-            {
-              label: 'counter_2',
-              data: rows.map((row) => row.counter_2),
-              borderColor: '#0f9f6e',
-              backgroundColor: 'rgba(15, 159, 110, 0.12)',
-              tension: 0.28,
-              pointRadius: 3,
-              spanGaps: true,
-            },
-            {
-              label: 'comments',
-              data: rows.map((row) => row.comments),
-              borderColor: '#c27803',
-              backgroundColor: 'rgba(194, 120, 3, 0.12)',
-              tension: 0.28,
-              pointRadius: 3,
-              spanGaps: true,
-            },
-          ],
-        },
+        data: { datasets },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          parsing: false,
           interaction: {
-            mode: 'index',
+            mode: 'nearest',
             intersect: false,
           },
           plugins: {
@@ -511,16 +540,23 @@
             },
             tooltip: {
               callbacks: {
-                label: (context) => `${context.dataset.label}: ${formatNumber(context.parsed.y)}`,
+                title: (items) => items[0]?.raw?.collectedAt || '',
+                label: (context) => {
+                  const raw = context.raw;
+                  return `${context.dataset.label}: ${formatNumber(raw.y)} / ${formatNumber(raw.counter2)} / ${formatNumber(raw.comments)}`;
+                },
               },
             },
           },
           scales: {
             x: {
+              type: 'linear',
+              title: {
+                display: true,
+                text: '캐릭터별 기록 순번',
+              },
               ticks: {
-                maxRotation: 0,
-                autoSkip: true,
-                maxTicksLimit: 6,
+                precision: 0,
               },
               grid: {
                 display: false,
@@ -537,8 +573,34 @@
       });
     }
 
+    async function loadDashboard() {
+      const [csvResponse, latestResponse] = await Promise.all([
+        fetch(csvUrl),
+        fetch(latestUrl).catch(() => null),
+      ]);
+
+      if (!csvResponse.ok) throw new Error(`CSV 로드 실패: ${csvResponse.status}`);
+      const rows = parseCsv(await csvResponse.text()).map(normalizeRow);
+      if (!rows.length) throw new Error('CSV에 표시할 데이터가 없습니다.');
+
+      const groupedRows = latestRowsByCharacter(rows);
+      const latestFromCsv = [...groupedRows.values()].map((history) => history[history.length - 1]);
+      const latestJson = latestResponse && latestResponse.ok ? await latestResponse.json() : [];
+      const latestArray = Array.isArray(latestJson) ? latestJson.map(normalizeRow) : [];
+      const latestById = new Map(latestArray.map((row) => [row.character_id, row]));
+      const latestRows = latestFromCsv.map((row) => ({ ...row, ...(latestById.get(row.character_id) || {}) }));
+
+      renderCards(latestRows, groupedRows);
+      renderRecentTable(rows);
+      renderChart(groupedRows);
+
+      const latestStamp = latestRows.map((row) => row.collected_at_kst).filter(Boolean).sort().at(-1) || '-';
+      document.getElementById('latestSummary').textContent = `최근 ${Math.min(rows.length, 12)}개 CSV 행을 표시합니다. 마지막 업데이트 ${latestStamp}`;
+    }
+
     loadDashboard().catch((error) => {
-      document.querySelector('.main-grid').innerHTML = `<div class="error">${error.message}</div>`;
+      document.getElementById('portfolioGrid').innerHTML = `<div class="error">${escapeHtml(error.message)}</div>`;
+      document.querySelector('.content-grid').remove();
     });
   </script>
 </body>

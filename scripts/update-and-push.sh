@@ -8,7 +8,7 @@ BRANCH="${BRANCH:-}"
 
 cd "$PROJECT_DIR"
 
-echo "== 윤도하 Tingle 트래커 업데이트 =="
+echo "== Tingle 캐릭터 포트폴리오 트래커 업데이트 =="
 echo "프로젝트: $PROJECT_DIR"
 echo "저장소: $REPO"
 
@@ -47,7 +47,7 @@ if [ -d .git ]; then
   if git diff --cached --quiet; then
     echo "커밋할 변경사항이 없습니다."
   else
-    git commit -m "Update Yoon Doha tracker data"
+    git commit -m "Update Tingle character portfolio data"
     git push origin "${BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
   fi
 else

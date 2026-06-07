@@ -1,12 +1,13 @@
-# 윤도하 Tingle 트래커
+# Tingle 캐릭터 포트폴리오
 
-Tingle 캐릭터 **윤도하**의 공개 지표를 Playwright로 수집하고, GitHub Pages에서 정적 대시보드로 보여주는 독립 프로젝트입니다.
+Tingle 캐릭터 포트폴리오의 공개 지표를 Playwright로 수집하고, GitHub Pages에서 정적 대시보드로 보여주는 독립 프로젝트입니다.
 
 ## 대상 캐릭터
 
-- 이름: 윤도하
-- 캐릭터 ID: `45714`
-- URL: <https://tingle.chat/chat/characters/45714>
+- `45714` 윤도하: <https://tingle.chat/chat/characters/45714>
+- `46603` 한유건: <https://tingle.chat/chat/characters/46603>
+- `46604` 류하민: <https://tingle.chat/chat/characters/46604>
+- `46605` 레온 칼드윈: <https://tingle.chat/chat/characters/46605>
 - 수집 지표: `counter_1`, `counter_2`, `comments`
 - 데이터 파일: `data/yoon-doha-stats.csv`, `data/yoon-doha-latest.json`, `data/yoon-doha-latest-report.txt`
 
@@ -29,11 +30,11 @@ npx playwright install chromium
 npm run track
 ```
 
-실행하면 CSV에는 새 행이 append되고, 최신 JSON과 텍스트 리포트가 갱신됩니다. 같은 날 또는 같은 값으로 중복 실행해도 기존 CSV 행은 제거하지 않습니다.
+실행하면 CSV에는 캐릭터별 새 행이 append되고, 최신 JSON 배열과 텍스트 리포트가 갱신됩니다. 같은 날 또는 같은 값으로 중복 실행해도 기존 CSV 행은 제거하지 않습니다.
 
 ## GitHub Pages 대시보드
 
-`index.html`은 브라우저에서 상대 경로로 `data/yoon-doha-stats.csv`와 `data/yoon-doha-latest.json`을 fetch합니다. GitHub Pages에 배포되면 다음 주소에서 확인합니다.
+`index.html`은 브라우저에서 상대 경로로 `data/yoon-doha-stats.csv`와 `data/yoon-doha-latest.json`을 fetch합니다. 최신 JSON은 캐릭터별 최신값 배열이며, GitHub Pages에 배포되면 다음 주소에서 확인합니다.
 
 <https://gdrpaul3-byte.github.io/yoon_doha_tracker/>
 

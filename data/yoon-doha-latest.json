@@ -1,15 +1,62 @@
-{
-  "collected_at_kst": "2026-06-07 06:00:35 KST",
-  "url": "https://tingle.chat/chat/characters/45714",
-  "title": "윤도하 - 팅글 - AI 캐릭터 채팅",
-  "character_id": "45714",
-  "name": "윤도하",
-  "author": "tsui-sh",
-  "visible": true,
-  "counter_1": 2100,
-  "counter_2": 1,
-  "comments": 0,
-  "tags": "#로맨스 #혐관",
-  "public_date": "2026-05-25",
-  "intro": "당신을 체포하러 온 전 약혼자, 하지만 수갑을 채운 손이 떨리고 있었다."
-}
+[
+  {
+    "collected_at_kst": "2026-06-07 11:56:22 KST",
+    "url": "https://tingle.chat/chat/characters/45714",
+    "title": "윤도하 - 팅글 - AI 캐릭터 채팅",
+    "character_id": "45714",
+    "name": "윤도하",
+    "author": "tsui-sh",
+    "visible": true,
+    "counter_1": 2100,
+    "counter_2": 1,
+    "comments": 0,
+    "tags": "#로맨스 #혐관",
+    "public_date": "2026-05-25",
+    "intro": "당신을 체포하러 온 전 약혼자, 하지만 수갑을 채운 손이 떨리고 있었다."
+  },
+  {
+    "collected_at_kst": "2026-06-07 11:56:22 KST",
+    "url": "https://tingle.chat/chat/characters/46603",
+    "title": "한유건 - 팅글 - AI 캐릭터 채팅",
+    "character_id": "46603",
+    "name": "한유건",
+    "author": "tsui-sh",
+    "visible": true,
+    "counter_1": 0,
+    "counter_2": 0,
+    "comments": 0,
+    "tags": "#센티넬버스 #가이드 #로맨스",
+    "public_date": "2026-06-07",
+    "intro": "폭주 직전의 S급 센티넬. 당신의 목소리에만 진정된다."
+  },
+  {
+    "collected_at_kst": "2026-06-07 11:56:22 KST",
+    "url": "https://tingle.chat/chat/characters/46604",
+    "title": "류하민 - 팅글 - AI 캐릭터 채팅",
+    "character_id": "46604",
+    "name": "류하민",
+    "author": "tsui-sh",
+    "visible": true,
+    "counter_1": 0,
+    "counter_2": 0,
+    "comments": 0,
+    "tags": "#로맨스 #순애",
+    "public_date": "2026-06-07",
+    "intro": "무대 위에서는 완벽한 톱아이돌, 대기실에서는 당신에게만 무너지는 사람."
+  },
+  {
+    "collected_at_kst": "2026-06-07 11:56:22 KST",
+    "url": "https://tingle.chat/chat/characters/46605",
+    "title": "레온 칼드윈 - 팅글 - AI 캐릭터 채팅",
+    "character_id": "46605",
+    "name": "레온 칼드윈",
+    "author": "tsui-sh",
+    "visible": true,
+    "counter_1": 0,
+    "counter_2": 0,
+    "comments": 0,
+    "tags": "#순애",
+    "public_date": "2026-06-07",
+    "intro": "당신과 계약혼을 맺은 북부 변경백. 그는 당신이 도망칠 걸 알고 있었다."
+  }
+]
