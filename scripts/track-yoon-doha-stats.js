@@ -13,6 +13,9 @@ const CHARACTERS = [
   { id: '46603', name: '한유건' },
   { id: '46604', name: '류하민' },
   { id: '46605', name: '레온 칼드윈' },
+  { id: '46691', name: '강해준' },
+  { id: '46693', name: '서이담' },
+  { id: '46696', name: '이사야' },
 ].map((character) => ({
   ...character,
   url: `${BASE_URL}/${character.id}`,
