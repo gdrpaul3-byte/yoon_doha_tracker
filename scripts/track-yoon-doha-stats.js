@@ -32,6 +32,7 @@ const FIELDS = [
   'comments',
   'tags',
   'public_date',
+  'cover_image_url',
   'url',
 ];
 
@@ -144,6 +145,22 @@ function pickAuthor(lines, nameIdx) {
   return maybeAuthor;
 }
 
+function pickCoverImage(raw, character) {
+  const images = Array.isArray(raw.images) ? raw.images : [];
+  const exactAlt = images.find((img) => String(img.alt || '').includes(`${character.name}썸네일 이미지`));
+  if (exactAlt?.src) return exactAlt.src;
+
+  const largeCharacterImage = images.find((img) =>
+    String(img.src || '').includes('asset.tingle.chat/chat/')
+    && Number(img.width || img.w || 0) >= 250
+    && Number(img.height || img.h || 0) >= 250
+  );
+  if (largeCharacterImage?.src) return largeCharacterImage.src;
+
+  const firstChatImage = images.find((img) => String(img.src || '').includes('asset.tingle.chat/chat/'));
+  return firstChatImage?.src || '';
+}
+
 function parseStats(raw, character, collectedAtKst) {
   const lines = raw.text.split(/\n+/).map((s) => s.trim()).filter(Boolean);
   const nameIdx = lines.findIndex((line) => line === character.name);
@@ -184,6 +201,7 @@ function parseStats(raw, character, collectedAtKst) {
     comments: commentCount,
     tags: tags.join(' '),
     public_date: publicDateLine.replace('최초 공개:', '').trim(),
+    cover_image_url: pickCoverImage(raw, character),
     intro,
   };
 }
@@ -193,11 +211,29 @@ async function fetchStatsForCharacter(page, character, collectedAtKst) {
   await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
   await page.waitForTimeout(2500);
 
-  const raw = await page.evaluate(() => ({
-    text: document.body.innerText,
-    title: document.title,
-    url: location.href,
-  }));
+  const raw = await page.evaluate(() => {
+    const visible = (el) => {
+      const rect = el.getBoundingClientRect();
+      return rect.width > 20 && rect.height > 20;
+    };
+    const images = [...document.images].filter(visible).map((img) => {
+      const rect = img.getBoundingClientRect();
+      return {
+        src: img.src,
+        alt: img.alt,
+        width: rect.width,
+        height: rect.height,
+        naturalWidth: img.naturalWidth,
+        naturalHeight: img.naturalHeight,
+      };
+    });
+    return {
+      text: document.body.innerText,
+      title: document.title,
+      url: location.href,
+      images,
+    };
+  });
 
   return parseStats(raw, character, collectedAtKst);
 }
@@ -246,7 +282,19 @@ async function fetchAllStats() {
 
 function writeCsvRows(csvPath, stats) {
   const exists = fs.existsSync(csvPath);
-  if (!exists) fs.writeFileSync(csvPath, FIELDS.join(',') + '\n', 'utf8');
+  if (!exists) {
+    fs.writeFileSync(csvPath, FIELDS.join(',') + '\n', 'utf8');
+  } else {
+    const firstLine = fs.readFileSync(csvPath, 'utf8').split(/\r?\n/, 1)[0] || '';
+    const currentHeader = parseCsvLine(firstLine);
+    if (currentHeader.join('\u0001') !== FIELDS.join('\u0001')) {
+      const oldRows = readCsvRows(csvPath);
+      const migrated = [FIELDS.join(',')]
+        .concat(oldRows.map((row) => FIELDS.map((field) => csvEscape(row[field])).join(',')))
+        .join('\n');
+      fs.writeFileSync(csvPath, `${migrated}\n`, 'utf8');
+    }
+  }
 
   const rows = stats
     .map((stat) => FIELDS.map((field) => csvEscape(stat[field])).join(','))
