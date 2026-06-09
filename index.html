@@ -412,8 +412,8 @@
 
     <section class="content-grid">
       <article class="chart-panel">
-        <h2 class="panel-title">캐릭터별 counter_1 추이</h2>
-        <p class="panel-subtitle">CSV 행 순서를 유지하되 캐릭터별로 나누어 최근 흐름을 비교합니다.</p>
+        <h2 class="panel-title">캐릭터별 순수 고객 추정 counter_1 추이</h2>
+        <p class="panel-subtitle">전체 counter_1에서 운영 QA로 추정되는 증가분을 뺀 값을 기본 추이로 표시합니다.</p>
         <div class="chart-wrap">
           <canvas id="trendChart" aria-label="Tingle 캐릭터 포트폴리오 추이 차트"></canvas>
         </div>
@@ -428,6 +428,8 @@
               <tr>
                 <th>캐릭터</th>
                 <th>counter_1</th>
+                <th>순수 고객 추정</th>
+                <th>QA 보정</th>
                 <th>counter_2</th>
                 <th>comments</th>
                 <th>수집시각</th>
@@ -443,6 +445,7 @@
   <script>
     const csvUrl = 'data/yoon-doha-stats.csv';
     const latestUrl = 'data/yoon-doha-latest.json';
+    const operatorQaUrl = 'data/operator-qa-events.json';
     const numberFormat = new Intl.NumberFormat('ko-KR');
     const palette = ['#2563eb', '#0f9f6e', '#c27803', '#7c3aed'];
     const characterImages = {
@@ -511,6 +514,9 @@
         ...row,
         character_id: String(row.character_id || ''),
         counter_1: toNumber(row.counter_1),
+        operator_qa_counter_1_total: toNumber(row.operator_qa_counter_1_total) || 0,
+        net_customer_counter_1: toNumber(row.net_customer_counter_1),
+        operator_qa_messages_total: toNumber(row.operator_qa_messages_total) || 0,
         counter_2: toNumber(row.counter_2),
         comments: toNumber(row.comments),
       };
@@ -596,6 +602,7 @@
         const history = groupedRows.get(latest.character_id) || [];
         const previous = history.length > 1 ? history[history.length - 2] : null;
         const counterDelta = signedDelta(latest.counter_1, previous?.counter_1);
+        const netCounterDelta = signedDelta(latest.net_customer_counter_1, previous?.net_customer_counter_1);
         const commentDelta = signedDelta(latest.comments, previous?.comments);
         return `
           <article class="character-card">
@@ -610,9 +617,11 @@
               </div>
               <div class="metric-list">
                 <div class="metric">
-                  <p class="metric-label">Counter 1</p>
-                  <p class="metric-value">${formatNumber(latest.counter_1)}</p>
-                  <p class="metric-note ${deltaClass(latest.counter_1, previous?.counter_1)}">직전 대비 ${counterDelta}</p>
+                  <p class="metric-label">Counter 1 / 순수 고객 추정</p>
+                  <p class="metric-value">${formatNumber(latest.counter_1)} / ${formatNumber(latest.net_customer_counter_1)}</p>
+                  <p class="metric-note ${deltaClass(latest.counter_1, previous?.counter_1)}">전체 직전 대비 ${counterDelta}</p>
+                  <p class="metric-note ${deltaClass(latest.net_customer_counter_1, previous?.net_customer_counter_1)}">순수 고객 직전 대비 ${netCounterDelta}</p>
+                  <p class="metric-note">운영 QA 보정: ${formatNumber(latest.operator_qa_counter_1_total)} · QA 메시지 ${formatNumber(latest.operator_qa_messages_total)}</p>
                 </div>
                 <div class="metric">
                   <p class="metric-label">Counter 2 / Comments</p>
@@ -634,6 +643,8 @@
         <tr>
           <td>${escapeHtml(row.name || row.character_id)}</td>
           <td>${formatNumber(row.counter_1)}</td>
+          <td>${formatNumber(row.net_customer_counter_1)}</td>
+          <td>${formatNumber(row.operator_qa_counter_1_total)}</td>
           <td>${formatNumber(row.counter_2)}</td>
           <td>${formatNumber(row.comments)}</td>
           <td>${escapeHtml(row.collected_at_kst || '-')}</td>
@@ -647,7 +658,10 @@
         label: rows[rows.length - 1]?.name || characterId,
         data: rows.map((row, rowIndex) => ({
           x: rowIndex + 1,
-          y: row.counter_1,
+          y: row.net_customer_counter_1 ?? row.counter_1,
+          rawCounter1: row.counter_1,
+          qaCounter1: row.operator_qa_counter_1_total,
+          qaMessages: row.operator_qa_messages_total,
           collectedAt: row.collected_at_kst,
           counter2: row.counter_2,
           comments: row.comments,
@@ -683,7 +697,7 @@
                 title: (items) => items[0]?.raw?.collectedAt || '',
                 label: (context) => {
                   const raw = context.raw;
-                  return `${context.dataset.label}: ${formatNumber(raw.y)} / ${formatNumber(raw.counter2)} / ${formatNumber(raw.comments)}`;
+                  return `${context.dataset.label}: 순수 ${formatNumber(raw.y)} / 전체 ${formatNumber(raw.rawCounter1)} / QA ${formatNumber(raw.qaCounter1)} / ${formatNumber(raw.counter2)} / ${formatNumber(raw.comments)}`;
                 },
               },
             },
@@ -714,9 +728,10 @@
     }
 
     async function loadDashboard() {
-      const [csvResponse, latestResponse] = await Promise.all([
+      const [csvResponse, latestResponse, operatorQaResponse] = await Promise.all([
         fetch(csvUrl),
         fetch(latestUrl).catch(() => null),
+        fetch(operatorQaUrl).catch(() => null),
       ]);
 
       if (!csvResponse.ok) throw new Error(`CSV 로드 실패: ${csvResponse.status}`);
@@ -726,6 +741,15 @@
       const groupedRows = latestRowsByCharacter(rows);
       const latestFromCsv = [...groupedRows.values()].map((history) => history[history.length - 1]);
       const latestJson = latestResponse && latestResponse.ok ? await latestResponse.json() : [];
+      let operatorQaEvents = [];
+      if (operatorQaResponse && operatorQaResponse.ok) {
+        try {
+          const qaJson = await operatorQaResponse.json();
+          operatorQaEvents = Array.isArray(qaJson) ? qaJson : [];
+        } catch (_) {
+          operatorQaEvents = [];
+        }
+      }
       const latestArray = Array.isArray(latestJson) ? latestJson.map(normalizeRow) : [];
       const latestById = new Map(latestArray.map((row) => [row.character_id, row]));
       const latestRows = latestFromCsv.map((row) => ({ ...row, ...(latestById.get(row.character_id) || {}) }));
@@ -735,7 +759,8 @@
       renderChart(groupedRows);
 
       const latestStamp = latestRows.map((row) => row.collected_at_kst).filter(Boolean).sort().at(-1) || '-';
-      document.getElementById('latestSummary').textContent = `최근 ${Math.min(rows.length, 12)}개 CSV 행을 표시합니다. 마지막 업데이트 ${latestStamp}`;
+      const qaEventCount = operatorQaEvents.length;
+      document.getElementById('latestSummary').textContent = `최근 ${Math.min(rows.length, 12)}개 CSV 행을 표시합니다. 마지막 업데이트 ${latestStamp}. 운영 QA 이벤트 ${qaEventCount}건은 순수 고객 추정치에서 별도 보정합니다.`;
     }
 
     loadDashboard().catch((error) => {

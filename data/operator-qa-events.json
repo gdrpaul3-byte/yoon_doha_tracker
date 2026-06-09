@@ -1,0 +1,44 @@
+[
+  {
+    "occurred_at_kst": "2026-06-09 22:23:43 KST",
+    "character_id": "46604",
+    "name": "류하민",
+    "chat_url": "https://tingle.chat/chat/2251997",
+    "messages_sent": 1,
+    "turns": 1,
+    "purpose": "character_quality_qa",
+    "source": "operator_qa",
+    "counter_1_before": 21,
+    "counter_1_after": 30,
+    "estimated_counter_1_delta": 9,
+    "notes": "상위 후보 3명 QA. 아이돌/대기실 컨셉 유지 및 첫 응답 품질 확인."
+  },
+  {
+    "occurred_at_kst": "2026-06-09 22:24:20 KST",
+    "character_id": "46742",
+    "name": "한이든",
+    "chat_url": "https://tingle.chat/chat/2252004",
+    "messages_sent": 1,
+    "turns": 1,
+    "purpose": "character_quality_qa",
+    "source": "operator_qa",
+    "counter_1_before": 0,
+    "counter_1_after": 8,
+    "estimated_counter_1_delta": 8,
+    "notes": "상위 후보 3명 QA. 캠퍼스 연하남/도서관 플러팅 컨셉 유지 확인."
+  },
+  {
+    "occurred_at_kst": "2026-06-09 22:24:58 KST",
+    "character_id": "46744",
+    "name": "유한설",
+    "chat_url": "https://tingle.chat/chat/2252008",
+    "messages_sent": 1,
+    "turns": 1,
+    "purpose": "character_quality_qa",
+    "source": "operator_qa",
+    "counter_1_before": 0,
+    "counter_1_after": 10,
+    "estimated_counter_1_delta": 10,
+    "notes": "상위 후보 3명 QA. 구미호/비/그림자 컨셉 유지 확인."
+  }
+]

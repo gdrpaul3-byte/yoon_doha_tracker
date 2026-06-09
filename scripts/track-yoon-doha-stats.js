@@ -31,6 +31,9 @@ const FIELDS = [
   'author',
   'visible',
   'counter_1',
+  'operator_qa_counter_1_total',
+  'net_customer_counter_1',
+  'operator_qa_messages_total',
   'counter_2',
   'comments',
   'tags',
@@ -56,6 +59,16 @@ function kstNow() {
 
 function kstStamp() {
   return kstNow().toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, ' KST');
+}
+
+function parseKstStamp(value) {
+  if (!value) return null;
+  const text = String(value).trim().replace(' KST', '');
+  const match = text.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?/);
+  if (!match) return null;
+  const [, year, month, day, hour, minute, second = '0'] = match;
+  const utcMs = Date.UTC(Number(year), Number(month) - 1, Number(day), Number(hour) - 9, Number(minute), Number(second));
+  return Number.isFinite(utcMs) ? utcMs : null;
 }
 
 function csvEscape(value) {
@@ -139,6 +152,52 @@ function delta(current, previous) {
   if (!Number.isFinite(p) || !Number.isFinite(c)) return 'n/a';
   const d = c - p;
   return d === 0 ? '±0' : (d > 0 ? `+${d}` : String(d));
+}
+
+function readOperatorQaEvents() {
+  const qaPath = path.join(DATA_DIR, 'operator-qa-events.json');
+  if (!fs.existsSync(qaPath)) return [];
+  try {
+    const events = JSON.parse(fs.readFileSync(qaPath, 'utf8'));
+    return Array.isArray(events) ? events : [];
+  } catch (err) {
+    console.warn(`⚠️ QA 이벤트 로그 파싱 실패: ${err.message}`);
+    return [];
+  }
+}
+
+function qaTotalsForCharacter(events, characterId, collectedAtKst) {
+  const collectedMs = parseKstStamp(collectedAtKst) ?? Number.POSITIVE_INFINITY;
+  const total = {
+    operator_qa_counter_1_total: 0,
+    operator_qa_messages_total: 0,
+  };
+
+  for (const event of events) {
+    if (String(event.character_id) !== String(characterId)) continue;
+    const eventMs = parseKstStamp(event.occurred_at_kst);
+    if (eventMs !== null && eventMs > collectedMs) continue;
+    const impact = Number(event.estimated_counter_1_delta ?? event.counter_1_delta_observed ?? 0);
+    const messages = Number(event.messages_sent ?? event.turns ?? 0);
+    if (Number.isFinite(impact)) total.operator_qa_counter_1_total += impact;
+    if (Number.isFinite(messages)) total.operator_qa_messages_total += messages;
+  }
+
+  return total;
+}
+
+function applyOperatorQaAdjustments(stats, events) {
+  return stats.map((stat) => {
+    const totals = qaTotalsForCharacter(events, stat.character_id, stat.collected_at_kst);
+    const counter1 = Number(stat.counter_1);
+    const qaImpact = Number(totals.operator_qa_counter_1_total || 0);
+    const netCustomer = Number.isFinite(counter1) ? Math.max(0, counter1 - qaImpact) : null;
+    return {
+      ...stat,
+      ...totals,
+      net_customer_counter_1: netCustomer,
+    };
+  });
 }
 
 function pickAuthor(lines, nameIdx) {
@@ -322,6 +381,8 @@ function buildReport(stats, previousByCharacter) {
       `- 제작자: ${stat.author || 'n/a'}`,
       `- 태그: ${stat.tags || '없음'}`,
       `- 카운터1: ${stat.counter_1 ?? 'n/a'} (${delta(stat.counter_1, prev?.counter_1)})`,
+      `- QA 보정: 누적 QA 영향 ${stat.operator_qa_counter_1_total ?? 0}, QA 메시지 ${stat.operator_qa_messages_total ?? 0}`,
+      `- 순수 고객 추정 counter_1: ${stat.net_customer_counter_1 ?? 'n/a'} (${delta(stat.net_customer_counter_1, prev?.net_customer_counter_1)})`,
       `- 카운터2: ${stat.counter_2 ?? 'n/a'} (${delta(stat.counter_2, prev?.counter_2)})`,
       `- 댓글: ${stat.comments ?? 'n/a'} (${delta(stat.comments, prev?.comments)})`,
       `- 최초 공개: ${stat.public_date || 'n/a'}`,
@@ -339,7 +400,8 @@ function buildReport(stats, previousByCharacter) {
   const reportPath = path.join(DATA_DIR, 'yoon-doha-latest-report.txt');
 
   const previousByCharacter = latestRowsByCharacter(readCsvRows(csvPath));
-  const stats = await fetchAllStats();
+  const operatorQaEvents = readOperatorQaEvents();
+  const stats = applyOperatorQaAdjustments(await fetchAllStats(), operatorQaEvents);
 
   writeCsvRows(csvPath, stats);
   fs.writeFileSync(latestPath, JSON.stringify(stats, null, 2), 'utf8');
