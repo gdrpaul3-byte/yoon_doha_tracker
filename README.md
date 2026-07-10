@@ -5,7 +5,6 @@ Tingle 캐릭터 포트폴리오의 공개 지표를 Playwright로 수집하고,
 ## 대상 캐릭터
 
 - `45714` 윤도하: <https://tingle.chat/chat/characters/45714>
-- `46603` 한유건: <https://tingle.chat/chat/characters/46603>
 - `46604` 류하민: <https://tingle.chat/chat/characters/46604>
 - 수집 지표: `counter_1`, `counter_2`, `comments`
 - 데이터 파일: `data/yoon-doha-stats.csv`, `data/yoon-doha-latest.json`, `data/yoon-doha-latest-report.txt`

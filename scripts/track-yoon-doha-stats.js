@@ -10,9 +10,7 @@ const AUTH_PROFILE_DIR = process.env.TINGLE_BROWSER_PROFILE || '/root/projects/t
 
 const CHARACTERS = [
   { id: '45714', name: '윤도하' },
-  { id: '46603', name: '한유건' },
   { id: '46604', name: '류하민' },
-  { id: '46691', name: '강해준' },
   { id: '46693', name: '서이담' },
   { id: '46696', name: '이사야' },
   { id: '46742', name: '한이든' },

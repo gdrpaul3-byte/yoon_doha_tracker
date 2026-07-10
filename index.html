@@ -450,9 +450,9 @@
     const palette = ['#2563eb', '#0f9f6e', '#c27803', '#7c3aed'];
     const characterImages = {
       '45714': 'assets/characters/45714-yoon-doha.png',
-      '46603': 'assets/characters/46603-han-yugeon.png',
       '46604': 'assets/characters/46604-ryu-hamin.png',
     };
+    const trackedCharacterIds = new Set(['45714', '46604', '46693', '46696', '46742', '46743', '46744']);
 
     function parseCsv(text) {
       const rows = [];
@@ -734,7 +734,7 @@
       ]);
 
       if (!csvResponse.ok) throw new Error(`CSV 로드 실패: ${csvResponse.status}`);
-      const rows = parseCsv(await csvResponse.text()).map(normalizeRow);
+      const rows = parseCsv(await csvResponse.text()).map(normalizeRow).filter((row) => trackedCharacterIds.has(row.character_id));
       if (!rows.length) throw new Error('CSV에 표시할 데이터가 없습니다.');
 
       const groupedRows = latestRowsByCharacter(rows);
