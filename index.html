@@ -646,7 +646,7 @@
           <td>${formatNumber(row.operator_qa_counter_1_total)}</td>
           <td>${formatNumber(row.counter_2)}</td>
           <td>${formatNumber(row.comments)}</td>
-          <td>${escapeHtml(row.collected_at_kst || '-')}</td>
+          <td>${escapeHtml(row.collected_at_kst || row.collected_at_utc || '-')}</td>
         </tr>
       `).join('');
     }
@@ -757,7 +757,7 @@
       renderRecentTable(rows);
       renderChart(groupedRows);
 
-      const latestStamp = latestRows.map((row) => row.collected_at_kst).filter(Boolean).sort().at(-1) || '-';
+      const latestStamp = latestRows.map((row) => row.collected_at_kst || row.collected_at_utc).filter(Boolean).sort().at(-1) || '-';
       const qaEventCount = operatorQaEvents.length;
       document.getElementById('latestSummary').textContent = `최근 ${Math.min(rows.length, 12)}개 CSV 행을 표시합니다. 마지막 업데이트 ${latestStamp}. 운영 QA 이벤트 ${qaEventCount}건은 순수 고객 추정치에서 별도 보정합니다.`;
     }
