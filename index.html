@@ -403,7 +403,7 @@
       <div>
         <p class="eyebrow">Tingle Character Portfolio</p>
         <h1>Tingle 캐릭터 포트폴리오</h1>
-        <p class="subtitle">CSV 이력을 직접 불러와 네 캐릭터의 counter_1, counter_2, comments 최신값과 추이를 표시합니다. 데이터 파일은 GitHub Pages 상대 경로인 <code>data/</code> 기준으로 로드됩니다.</p>
+        <p class="subtitle">CSV 이력을 직접 불러와 추적 중인 캐릭터의 counter_1, counter_2, comments 최신값과 추이를 표시합니다. 데이터 파일은 GitHub Pages 상대 경로인 <code>data/</code> 기준으로 로드됩니다.</p>
       </div>
       <a class="link-button" href="https://tingle.chat/chat/characters/45714" target="_blank" rel="noreferrer">Tingle 보기</a>
     </header>
@@ -661,7 +661,7 @@
           rawCounter1: row.counter_1,
           qaCounter1: row.operator_qa_counter_1_total,
           qaMessages: row.operator_qa_messages_total,
-          collectedAt: row.collected_at_kst,
+          collectedAt: row.collected_at_kst || row.collected_at_utc,
           counter2: row.counter_2,
           comments: row.comments,
         })),
