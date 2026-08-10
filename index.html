@@ -734,11 +734,7 @@
       ]);
 
       if (!csvResponse.ok) throw new Error(`CSV 로드 실패: ${csvResponse.status}`);
-      const rows = parseCsv(await csvResponse.text()).map(normalizeRow).filter((row) => trackedCharacterIds.has(row.character_id));
-      if (!rows.length) throw new Error('CSV에 표시할 데이터가 없습니다.');
-
-      const groupedRows = latestRowsByCharacter(rows);
-      const latestFromCsv = [...groupedRows.values()].map((history) => history[history.length - 1]);
+      const parsedRows = parseCsv(await csvResponse.text()).map(normalizeRow);
       const latestJson = latestResponse && latestResponse.ok ? await latestResponse.json() : [];
       let operatorQaEvents = [];
       if (operatorQaResponse && operatorQaResponse.ok) {
@@ -750,6 +746,14 @@
         }
       }
       const latestArray = Array.isArray(latestJson) ? latestJson.map(normalizeRow) : [];
+      const activeIds = latestArray.length
+        ? new Set(latestArray.map((row) => row.character_id))
+        : trackedCharacterIds;
+      const rows = parsedRows.filter((row) => activeIds.has(row.character_id));
+      if (!rows.length) throw new Error('CSV에 표시할 데이터가 없습니다.');
+
+      const groupedRows = latestRowsByCharacter(rows);
+      const latestFromCsv = [...groupedRows.values()].map((history) => history[history.length - 1]);
       const latestById = new Map(latestArray.map((row) => [row.character_id, row]));
       const latestRows = latestFromCsv.map((row) => ({ ...row, ...(latestById.get(row.character_id) || {}) }));
 
