@@ -1,6 +1,6 @@
 [
   {
-    "collected_at_utc": "2026-08-09T11:24:17.400Z",
+    "collected_at_utc": "2026-08-10T00:07:27.181Z",
     "character_id": "45714",
     "name": "윤도하",
     "num_chats": 3,
@@ -9,12 +9,13 @@
     "num_reviews": 0,
     "num_trigger_images": 14,
     "url": "https://tingle.chat/chat/characters/45714",
+    "cover_image_url": "https://asset.tingle.chat/chat/j5aq1sq9u634g2ns5hq7xd20bu.webp",
     "counter_1_legacy_num_bubbles": "",
     "counter_2_legacy_num_likes": "",
     "comments_legacy_num_reviews": ""
   },
   {
-    "collected_at_utc": "2026-08-09T11:24:17.400Z",
+    "collected_at_utc": "2026-08-10T00:07:27.181Z",
     "character_id": "46604",
     "name": "류하민",
     "num_chats": 4,
@@ -23,12 +24,13 @@
     "num_reviews": 0,
     "num_trigger_images": 14,
     "url": "https://tingle.chat/chat/characters/46604",
+    "cover_image_url": "https://asset.tingle.chat/chat/6u3wla40vt4ervknplr8fxz2yo.webp",
     "counter_1_legacy_num_bubbles": "",
     "counter_2_legacy_num_likes": "",
     "comments_legacy_num_reviews": ""
   },
   {
-    "collected_at_utc": "2026-08-09T11:24:17.400Z",
+    "collected_at_utc": "2026-08-10T00:07:27.181Z",
     "character_id": "46693",
     "name": "서이담",
     "num_chats": 0,
@@ -37,12 +39,13 @@
     "num_reviews": 0,
     "num_trigger_images": 14,
     "url": "https://tingle.chat/chat/characters/46693",
+    "cover_image_url": "https://asset.tingle.chat/chat/fcwq09ci8nepqfumaj440s2d9k.webp",
     "counter_1_legacy_num_bubbles": "",
     "counter_2_legacy_num_likes": "",
     "comments_legacy_num_reviews": ""
   },
   {
-    "collected_at_utc": "2026-08-09T11:24:17.400Z",
+    "collected_at_utc": "2026-08-10T00:07:27.181Z",
     "character_id": "46696",
     "name": "이사야",
     "num_chats": 0,
@@ -51,12 +54,13 @@
     "num_reviews": 0,
     "num_trigger_images": 14,
     "url": "https://tingle.chat/chat/characters/46696",
+    "cover_image_url": "https://asset.tingle.chat/chat/5d1hhru88ce0dkus96a53s7t2w.webp",
     "counter_1_legacy_num_bubbles": "",
     "counter_2_legacy_num_likes": "",
     "comments_legacy_num_reviews": ""
   },
   {
-    "collected_at_utc": "2026-08-09T11:24:17.400Z",
+    "collected_at_utc": "2026-08-10T00:07:27.181Z",
     "character_id": "46742",
     "name": "한이든",
     "num_chats": 1,
@@ -65,12 +69,13 @@
     "num_reviews": 0,
     "num_trigger_images": 14,
     "url": "https://tingle.chat/chat/characters/46742",
+    "cover_image_url": "https://asset.tingle.chat/chat/zvfzh7sjk7qwm1nvpl2fxo7z94.webp",
     "counter_1_legacy_num_bubbles": "",
     "counter_2_legacy_num_likes": "",
     "comments_legacy_num_reviews": ""
   },
   {
-    "collected_at_utc": "2026-08-09T11:24:17.400Z",
+    "collected_at_utc": "2026-08-10T00:07:27.181Z",
     "character_id": "46743",
     "name": "도재경",
     "num_chats": 0,
@@ -79,12 +84,13 @@
     "num_reviews": 0,
     "num_trigger_images": 14,
     "url": "https://tingle.chat/chat/characters/46743",
+    "cover_image_url": "https://asset.tingle.chat/chat/6fp6atkb98bi47szbhwsdt4978.webp",
     "counter_1_legacy_num_bubbles": "",
     "counter_2_legacy_num_likes": "",
     "comments_legacy_num_reviews": ""
   },
   {
-    "collected_at_utc": "2026-08-09T11:24:17.400Z",
+    "collected_at_utc": "2026-08-10T00:07:27.181Z",
     "character_id": "46744",
     "name": "유한설",
     "num_chats": 1,
@@ -93,20 +99,22 @@
     "num_reviews": 0,
     "num_trigger_images": 14,
     "url": "https://tingle.chat/chat/characters/46744",
+    "cover_image_url": "https://asset.tingle.chat/chat/bgwgtgitzmkep7js70fs4pdxb4.webp",
     "counter_1_legacy_num_bubbles": "",
     "counter_2_legacy_num_likes": "",
     "comments_legacy_num_reviews": ""
   },
   {
-    "collected_at_utc": "2026-08-09T11:24:17.400Z",
+    "collected_at_utc": "2026-08-10T00:07:27.181Z",
     "character_id": "51025",
     "name": "서도겸",
-    "num_chats": 0,
-    "num_bubbles": 0,
-    "num_likes": 0,
+    "num_chats": 1,
+    "num_bubbles": 52,
+    "num_likes": 1,
     "num_reviews": 0,
     "num_trigger_images": 3,
     "url": "https://tingle.chat/chat/characters/51025",
+    "cover_image_url": "https://asset.tingle.chat/chat/awo3g4s6ks6cul111xiruccbnv.webp",
     "counter_1_legacy_num_bubbles": "",
     "counter_2_legacy_num_likes": "",
     "comments_legacy_num_reviews": ""

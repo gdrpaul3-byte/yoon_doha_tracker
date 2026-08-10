@@ -452,7 +452,7 @@
       '45714': 'assets/characters/45714-yoon-doha.png',
       '46604': 'assets/characters/46604-ryu-hamin.png',
     };
-    const trackedCharacterIds = new Set(['45714', '46604', '46693', '46696', '46742', '46743', '46744']);
+    const trackedCharacterIds = new Set(['45714', '46604', '46693', '46696', '46742', '46743', '46744', '51025']);
 
     function parseCsv(text) {
       const rows = [];
@@ -512,12 +512,12 @@
       return {
         ...row,
         character_id: String(row.character_id || ''),
-        counter_1: toNumber(row.counter_1),
+        counter_1: toNumber(row.counter_1 || row.num_bubbles),
         operator_qa_counter_1_total: toNumber(row.operator_qa_counter_1_total) || 0,
         net_customer_counter_1: toNumber(row.net_customer_counter_1),
         operator_qa_messages_total: toNumber(row.operator_qa_messages_total) || 0,
-        counter_2: toNumber(row.counter_2),
-        comments: toNumber(row.comments),
+        counter_2: toNumber(row.counter_2 || row.num_likes),
+        comments: toNumber(row.comments || row.num_reviews),
       };
     }
 

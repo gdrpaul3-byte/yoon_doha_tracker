@@ -50,6 +50,7 @@ test('builds tracked public personas with explicit fields', () => {
   assert.equal(rows[0].num_bubbles, 2230);
   assert.equal(rows[1].character_id, '51025');
   assert.equal(rows[1].name, '서도겸');
+  assert.match(rows[1].cover_image_url, /^https:\/\//);
   assert.equal(rows[0].counter_1_legacy_num_bubbles, '');
   assert.ok(FIELDS.includes('num_chats'));
   assert.ok(FIELDS.includes('num_trigger_images'));
