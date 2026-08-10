@@ -403,7 +403,7 @@
       <div>
         <p class="eyebrow">Tingle Character Portfolio</p>
         <h1>Tingle 캐릭터 포트폴리오</h1>
-        <p class="subtitle">CSV 이력을 직접 불러와 추적 중인 캐릭터의 counter_1, counter_2, comments 최신값과 추이를 표시합니다. 데이터 파일은 GitHub Pages 상대 경로인 <code>data/</code> 기준으로 로드됩니다.</p>
+        <p class="subtitle">CSV 이력을 직접 불러와 추적 중인 캐릭터의 공개 API 지표와 추이를 표시합니다. <strong>num_bubbles는 고객 수나 매출이 아니며</strong>, 순수 고객 추정은 검증된 운영 QA 보정 데이터가 있을 때만 표시합니다. 데이터 파일은 GitHub Pages 상대 경로인 <code>data/</code> 기준으로 로드됩니다.</p>
       </div>
       <a class="link-button" href="https://tingle.chat/chat/characters/45714" target="_blank" rel="noreferrer">Tingle 보기</a>
     </header>
@@ -523,6 +523,19 @@
 
     function formatNumber(value) {
       return value === null || value === undefined ? '-' : numberFormat.format(value);
+    }
+
+    const timestampFormat = new Intl.DateTimeFormat('ko-KR', {
+      timeZone: 'Asia/Seoul',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    function formatTimestamp(value) {
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? String(value || '') : timestampFormat.format(date);
     }
 
     function signedDelta(current, previous) {
@@ -656,7 +669,7 @@
       const datasets = [...groupedRows.entries()].map(([characterId, rows], index) => ({
         label: rows[rows.length - 1]?.name || characterId,
         data: rows.map((row, rowIndex) => ({
-          x: rowIndex + 1,
+          x: Date.parse(row.collected_at_kst || row.collected_at_utc) || rowIndex,
           y: row.net_customer_counter_1 ?? row.counter_1,
           rawCounter1: row.counter_1,
           qaCounter1: row.operator_qa_counter_1_total,
@@ -693,7 +706,7 @@
             },
             tooltip: {
               callbacks: {
-                title: (items) => items[0]?.raw?.collectedAt || '',
+                title: (items) => formatTimestamp(items[0]?.raw?.collectedAt),
                 label: (context) => {
                   const raw = context.raw;
                   return `${context.dataset.label}: 순수 ${formatNumber(raw.y)} / 전체 ${formatNumber(raw.rawCounter1)} / QA ${formatNumber(raw.qaCounter1)} / ${formatNumber(raw.counter2)} / ${formatNumber(raw.comments)}`;
@@ -706,10 +719,10 @@
               type: 'linear',
               title: {
                 display: true,
-                text: '캐릭터별 기록 순번',
+                text: '수집시각 (KST)',
               },
               ticks: {
-                precision: 0,
+                callback: (value) => formatTimestamp(value),
               },
               grid: {
                 display: false,
