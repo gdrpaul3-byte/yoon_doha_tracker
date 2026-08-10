@@ -38,7 +38,7 @@ else
   echo "node_modules가 있어 npm install을 건너뜁니다."
 fi
 
-node scripts/track-yoon-doha-stats.js
+node scripts/track-public-api.js
 
 if [ -d .git ]; then
   shopt -s nullglob

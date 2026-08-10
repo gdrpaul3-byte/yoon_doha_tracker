@@ -1,86 +1,10 @@
-📊 Tingle 캐릭터 포트폴리오 실적 트래킹
-- 수집시각: 2026-08-09 06:00:32 KST
-
-[45714] 윤도하
-- 링크: https://tingle.chat/chat/characters/45714
-- 공개 확인: 정상 노출
-- 제작자: tsui-sh
-- 태그: #로맨스 #혐관
-- 카운터1: 2200 (±0)
-- QA 보정: 누적 QA 영향 0, QA 메시지 0
-- 순수 고객 추정 counter_1: 2200 (±0)
-- 카운터2: 1 (±0)
-- 댓글: 0 (±0)
-- 최초 공개: 2026-05-25
-
-[46604] 류하민
-- 링크: https://tingle.chat/chat/characters/46604
-- 공개 확인: 정상 노출
-- 제작자: tsui-sh
-- 태그: #로맨스 #순애
-- 카운터1: 30 (±0)
-- QA 보정: 누적 QA 영향 9, QA 메시지 1
-- 순수 고객 추정 counter_1: 21 (±0)
-- 카운터2: 1 (±0)
-- 댓글: 0 (±0)
-- 최초 공개: 2026-06-07
-
-[46693] 서이담
-- 링크: https://tingle.chat/chat/characters/46693
-- 공개 확인: 정상 노출
-- 제작자: tsui-sh
-- 태그: #로맨스
-- 카운터1: 0 (±0)
-- QA 보정: 누적 QA 영향 0, QA 메시지 0
-- 순수 고객 추정 counter_1: 0 (±0)
-- 카운터2: 0 (±0)
-- 댓글: 0 (±0)
-- 최초 공개: 2026-06-08
-
-[46696] 이사야
-- 링크: https://tingle.chat/chat/characters/46696
-- 공개 확인: 정상 노출
-- 제작자: tsui-sh
-- 태그: #로맨스
-- 카운터1: 0 (±0)
-- QA 보정: 누적 QA 영향 0, QA 메시지 0
-- 순수 고객 추정 counter_1: 0 (±0)
-- 카운터2: 0 (±0)
-- 댓글: 0 (±0)
-- 최초 공개: 2026-06-08
-
-[46742] 한이든
-- 링크: https://tingle.chat/chat/characters/46742
-- 공개 확인: 정상 노출
-- 제작자: tsui-sh
-- 태그: #로맨스 #순애
-- 카운터1: 8 (±0)
-- QA 보정: 누적 QA 영향 8, QA 메시지 1
-- 순수 고객 추정 counter_1: 0 (±0)
-- 카운터2: 0 (±0)
-- 댓글: 0 (±0)
-- 최초 공개: 2026-06-09
-
-[46743] 도재경
-- 링크: https://tingle.chat/chat/characters/46743
-- 공개 확인: 정상 노출
-- 제작자: tsui-sh
-- 태그: #로맨스 #순애
-- 카운터1: 0 (±0)
-- QA 보정: 누적 QA 영향 0, QA 메시지 0
-- 순수 고객 추정 counter_1: 0 (±0)
-- 카운터2: 0 (±0)
-- 댓글: 0 (±0)
-- 최초 공개: 2026-06-09
-
-[46744] 유한설
-- 링크: https://tingle.chat/chat/characters/46744
-- 공개 확인: 정상 노출
-- 제작자: tsui-sh
-- 태그: #로맨스 #순애
-- 카운터1: 10 (±0)
-- QA 보정: 누적 QA 영향 10, QA 메시지 1
-- 순수 고객 추정 counter_1: 0 (±0)
-- 카운터2: 0 (±0)
-- 댓글: 0 (±0)
-- 최초 공개: 2026-06-09
+Collected: 2026-08-09T11:24:17.400Z
+Source: https://api.tingle.chat/public/personas/v3?personaIds=45714,46604,46693,46696,46742,46743,46744,51025&languageCode=ko&countryCode=KR
+윤도하: chats=3, bubbles=2230, likes=1, reviews=0, trigger_images=14
+류하민: chats=4, bubbles=30, likes=1, reviews=0, trigger_images=14
+서이담: chats=0, bubbles=0, likes=0, reviews=0, trigger_images=14
+이사야: chats=0, bubbles=0, likes=0, reviews=0, trigger_images=14
+한이든: chats=1, bubbles=8, likes=0, reviews=0, trigger_images=14
+도재경: chats=0, bubbles=0, likes=0, reviews=0, trigger_images=14
+유한설: chats=1, bubbles=10, likes=0, reviews=0, trigger_images=14
+서도겸: chats=0, bubbles=0, likes=0, reviews=0, trigger_images=3

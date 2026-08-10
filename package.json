@@ -5,8 +5,9 @@
   "description": "Tingle 캐릭터 포트폴리오 지표 트래커와 GitHub Pages 대시보드",
   "main": "scripts/track-yoon-doha-stats.js",
   "scripts": {
-    "track": "node scripts/track-yoon-doha-stats.js",
-    "check": "node --check scripts/track-yoon-doha-stats.js"
+    "track": "node scripts/track-public-api.js",
+    "track:public": "node scripts/track-public-api.js",
+    "check": "node --check scripts/track-public-api.js && node --check scripts/public-api-metrics.js && node --test test/public-api-metrics.test.js"
   },
   "dependencies": {
     "playwright": "^1.52.0"
