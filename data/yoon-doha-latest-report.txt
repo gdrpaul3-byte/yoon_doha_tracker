@@ -1,4 +1,4 @@
-Collected: 2026-08-25T12:00:42.114Z
+Collected: 2026-08-26T00:00:56.881Z
 Source: https://api.tingle.chat/public/personas/v3?personaIds=45714,46604,46693,46696,46742,46743,46744,51025&languageCode=ko&countryCode=KR
 윤도하: chats=3, bubbles=2230, likes=1, reviews=0, trigger_images=14
 류하민: chats=5, bubbles=164, likes=1, reviews=0, trigger_images=14
